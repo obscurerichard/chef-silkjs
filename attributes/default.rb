@@ -1,5 +1,5 @@
 #
-# Author:: Richard Bullington-McGuire (<richard@moduscreate.com.com>)
+# Author:: Richard Bullington-McGuire (<richard@moduscreate.com>)
 # Cookbook Name:: silkjs-cookbook
 # Attributes:: default
 #
