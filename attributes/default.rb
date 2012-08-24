@@ -1,6 +1,6 @@
 #
 # Author:: Richard Bullington-McGuire (<richard@moduscreate.com>)
-# Cookbook Name:: silkjs-cookbook
+# Cookbook Name:: chef-silkjs
 # Attributes:: default
 #
 # Copyright 2008-2012, Modus Create, Inc.
@@ -17,3 +17,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require 'etc'
+
+default[:silkjs][:src]  = Etc.getpwuid.dir + "SilkJS"

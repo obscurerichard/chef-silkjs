@@ -11,8 +11,6 @@
 #
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require 'etc'
-
 if platform?("debian", "ubuntu")
   include_recipe "apt"
 end
@@ -20,16 +18,34 @@ include_recipe "git"
 
 silkjs_src = node[:silkjs][:src]
 
+packages = [ 
+  "build-essential",
+  "subversion",
+  "libmm-dev",
+  "libssl-dev",
+  "libgd2-xpm-dev",
+  "libncurses5-dev",
+  "libcurl4-openssl-dev",
+  "libssh2-1-dev",
+  "libcairo2-dev",
+  "libmysqlclient-dev",
+  "libsqlite3-dev",
+  "libmemcached-dev",
+  "apache2-utils",
+]
 
-bash "clone_silkjs" do
-  cwd Etc.getpwuid.dir
+packages.each do |pkg|
+  package pkg do
+    action :install
+  end
+end
+
+bash "install_silkjs" do
+  cwd silkjs_src
   code <<-EOH
-    if [ ! -d silkjs_src ]; then
-      git clone https://github.com/mschwartz/SilkJS.git #{silkjs_src}
-    else
-      cd #{silkjs_src} && git pull
+    if [ ! -x /usr/local/bin/silkjs ]; then
+      make && make install
     fi
   EOH
 end
 
-require 'silkjs-cookbook'
