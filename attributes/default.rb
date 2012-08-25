@@ -19,4 +19,4 @@
 
 require 'etc'
 
-default[:silkjs][:src]  = Etc.getpwuid.dir + "SilkJS"
+default[:silkjs][:src]  = Etc.getpwuid.dir + File::Separator + "SilkJS"
