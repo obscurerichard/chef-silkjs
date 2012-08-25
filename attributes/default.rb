@@ -20,3 +20,6 @@
 require 'etc'
 
 default[:silkjs][:src]  = Etc.getpwuid.dir + File::Separator + "SilkJS"
+default[:silkjs][:bin]  = "/usr/local/silkjs/bin/silkjs"
+# User to build silkjs as. Requires sudo privileges.
+default[:silkjs][:user]  = "root"

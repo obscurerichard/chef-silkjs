@@ -17,6 +17,8 @@ end
 include_recipe "git"
 
 silkjs_src = node[:silkjs][:src]
+silkjs_bin = node[:silkjs][:bin]
+silkjs_user = node[:silkjs][:user]
 
 packages = [ 
   "build-essential",
@@ -42,10 +44,8 @@ end
 
 bash "install_silkjs" do
   cwd silkjs_src
-  code <<-EOH
-    if [ ! -x /usr/local/bin/silkjs ]; then
-      make && make install
-    fi
-  EOH
+  user silkjs_user
+  code "(make && make install) 2>&1 | logger -t silkjs"
+  not_if {File.exists?(silkjs_bin)}
 end
 
