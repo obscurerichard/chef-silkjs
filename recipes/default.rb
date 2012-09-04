@@ -42,10 +42,19 @@ packages.each do |pkg|
   end
 end
 
+# Bash trick with "set -o pipefail" courtesy of Stack Overflow
+# Question:
+#  http://stackoverflow.com/questions/985876/tee-and-exit-status# Question asked by pachanga:
+#  http://stackoverflow.com/users/47422/pachanga
+# Answered by Ville Laurikari:
+#  http://stackoverflow.com/users/7446/ville-laurikari
+# Answer: 
+#  http://stackoverflow.com/a/999259
+
 bash "install_silkjs" do
   cwd silkjs_src
   user silkjs_user
-  code "(make && make install) 2>&1 | logger -t silkjs"
+  code "set -o pipefail; (make && make install) 2>&1 | logger -t silkjs"
   not_if {File.exists?(silkjs_bin)}
 end
 
